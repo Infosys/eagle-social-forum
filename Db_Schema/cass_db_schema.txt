@@ -1,0 +1,189 @@
+CREATE table follow_master(
+root_org text,
+org text,
+id UUID,
+sourceid UUID,
+targetid UUID,
+type text,
+status text,
+follow_date timestamp,
+last_modified_date timestamp,
+PRIMARY KEY ((root_org,org),sourceid,targetid,type)
+)
+
+CREATE MATERIALIZED VIEW follow_by_sourceid AS 
+SELECT sourceid,targetid,type,status,follow_date,root_org,org
+FROM follow_master
+WHERE sourceid is NOT NULL and root_org is NOT NULL and org is NOT NULL and status is NOT NULL and targetid is NOT NULL and type is NOT NULL and follow_date is NOT NULL
+PRIMARY KEY((root_org,org),sourceid,status,type,targetid)
+
+CREATE MATERIALIZED VIEW follow_by_targetid AS 
+SELECT targetid,sourceid,type,status,follow_date,root_org,org
+FROM follow_master
+WHERE sourceid is NOT NULL and root_org is NOT NULL and org is NOT NULL and status is NOT NULL and targetid is NOT NULL and type is NOT NULL and follow_date is NOT NULL
+PRIMARY KEY((root_org,org),targetid,status,type,sourceid);
+
+CREATE TABLE bodhi.post (
+    root_org text,
+    org text,
+    post_id uuid,
+    activity_end_date timestamp,
+    date_created timestamp,
+    date_last_modified timestamp,
+    date_published timestamp,
+    hashtags list<text>,
+    is_accepted_answer boolean,
+    last_edited map<text, text>,
+    option map<text, text>,
+    parent_id uuid,
+    post_content map<text, text>,
+    post_creator map<text, text>,
+    post_editor list<frozen<map<text, text>>>,
+    post_kind text,
+    recipients list<frozen<map<text, text>>>,
+    source map<text, text>,
+    status text,
+    tags list<frozen<map<text, text>>>,
+	thumbnail text,
+    PRIMARY KEY ((root_org, org), post_id)
+)
+
+CREATE TABLE bodhi.post_count (
+    root_org text,
+    org text,
+    post_id uuid,
+    comment_count counter,
+    dislike counter,
+    down_vote counter,
+    flag counter,
+    like counter,
+    share counter,
+    up_vote counter,
+    PRIMARY KEY ((root_org, org), post_id)
+) 
+
+
+CREATE TABLE bodhi.user_hashtag_post_mapping (
+    root_org text,
+    org text,
+    hashtag_history_id uuid,
+    date_activity_performed timestamp,
+    hashtag list<text>,
+    post_id uuid,
+    user_id uuid,
+    PRIMARY KEY ((root_org, org), hashtag_history_id)
+)
+
+CREATE TABLE bodhi.post_history (
+    root_org text,
+    org text,
+    post_history_id uuid,
+    abstract text,
+    body text,
+    date_edited timestamp,
+    editor uuid,
+    post_id uuid,
+    title text,
+    PRIMARY KEY ((root_org, org), post_history_id)
+)
+
+CREATE TABLE bodhi.user_tag_post_mapping (
+    root_org text,
+    org text,
+    post_id uuid,
+    tag_id uuid,
+    date_activity_performed timestamp,
+    activity text,
+    user_id uuid,
+    PRIMARY KEY ((root_org, org), post_id, tag_id, date_activity_performed)
+)
+
+
+INSERT INTO follow(root_org,org,id,sourceid,targetid,type,status,follow_date) VALUES('infy','ETA',now(),b7937152-5a52-43b5-8e7b-a5610f336c23,e4d2419a-75c7-4279-85be-017b7c2fb4e8,'person','follow','2019-01-24')
+
+CREATE table post(
+root_org text,
+org text,
+post_id UUID,
+post_kind text,
+date_created timestamp,
+date_published timestamp,
+date_last_modified timestamp,
+activity_end_date timestamp,
+last_edited map<text,text>,
+option map<text,text>,
+post_creator map<text,text>,
+recipients list<frozen <map<text,text>>>,
+status text,
+parent_id UUID,
+is_accepted_answer boolean,
+post_content map<text,text>,
+post_editor list<frozen <map<text,text>>>,
+tags list<frozen <map<text,text>>>,
+source map<text,text>,
+hashtags list<text>,
+PRIMARY KEY ((root_org,org),post_id)
+)
+
+create table user_tag_post_mapping(
+root_org text,
+org text,
+tag_id UUID,
+user_id UUID,
+post_id UUID,
+activity text,
+date_activity_performed timestamp,
+PRIMARY KEY ((root_org,org),post_id,tag_id,date_activity_performed) 
+)
+
+create table post_count(
+root_org text,
+org text,
+post_id UUID,
+comment_count counter,
+up_vote counter,
+down_vote counter,
+like counter,
+dislike counter,
+flag counter,
+share counter,
+PRIMARY KEY ((root_org,org),post_id)
+)
+
+create table post_activity(
+root_org text,
+org text,
+post_id UUID,
+user_id UUID,
+activity_id UUID,
+comments text,
+PRIMARY KEY((root_org,org),post_id,user_id)
+)
+
+create table post_history(
+root_org text,
+org text,
+post_history_id UUID,
+post_id UUID,
+title text,
+abstract text,
+body text,
+editor UUID,
+date_edited timestamp,
+PRIMARY KEY ((root_org,org),post_history_id)
+)
+
+
+
+
+CREATE TABLE bodhi.user_hashtag_post_mapping (
+    root_org text,
+    org text,
+    hashtag_history_id uuid,
+    date_activity_performed timestamp,
+    hashtag list<text>,
+    post_id uuid,
+    user_id uuid,
+    PRIMARY KEY ((root_org, org), hashtag_history_id)
+)
+

@@ -1,0 +1,494 @@
+POST _scripts/posttemplate
+{
+  "script": {
+    "lang": "mustache",
+    "source": """
+{
+  "size": {{sizeValue}}, 
+  "from": {{fromValue}},
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "rootOrg": {
+              "value": "{{rootOrgValue}}"
+            }
+          }
+        },
+        {
+          "term": {
+            "org": {
+              "value": "{{orgValue}}"
+            }
+          }
+        }
+		{{#mustfilterstatus}}
+		,
+        {
+          "terms": {
+            "status": {{#toJson}}mustfilterstatusValue{{/toJson}}
+          }
+        }
+		{{/mustfilterstatus}}
+		{{#mustfilterisAcceptedAnswer}}
+		,
+        {
+          "terms": {
+            "isAcceptedAnswer": {{#toJson}}mustfilterisAcceptedAnswerValue{{/toJson}}
+          }
+        }
+		{{/mustfilterisAcceptedAnswer}}
+		{{#mustfilterId}}
+		,
+        {
+          "terms": {
+            "id": {{#toJson}}mustfilterIdValue{{/toJson}}
+          }
+        }
+		{{/mustfilterId}}
+		{{#mustfilterparentId}}
+		,
+        {
+          "terms": {
+            "parentId": {{#toJson}}mustfilterparentIdValue{{/toJson}} 
+          }
+        }
+		{{/mustfilterparentId}}
+		{{#mustfilterpostKind}}
+		,
+        {
+          "terms": {
+            "postKind": {{#toJson}}mustfilterpostKindValue{{/toJson}}
+          }
+        }
+		{{/mustfilterpostKind}}
+		{{#mustfilterdtLastModified}}
+		,
+        {
+          "range": {
+            "dtLastModified": {
+              "gt": "{{mustfilterdtLastModifiedgteValue}}",
+              "lt": "{{mustfilterdtLastModifiedltValue}}"
+            }
+          }
+        }
+		{{/mustfilterdtLastModified}}
+		{{#mustfilterpostCreator}}
+		,
+        {
+          "nested": {
+            "path": "postCreator",
+            "query": {
+              "terms": {
+                "postCreator.postCreatorId": {{#toJson}}mustfilterpostCreatorValue{{/toJson}}
+              }
+            }
+          }
+        }
+		{{/mustfilterpostCreator}}
+      ]
+	  {{#mustnotfilter}}
+	  ,
+      "must_not": [
+	  {{#mustnotfilterId}}
+        {
+          "terms": {
+            "id": {{#toJson}}mustnotfilterIdValue{{/toJson}}
+          }
+        }
+	  {{/mustnotfilterId}}
+      ]
+	  {{/mustnotfilter}}
+    }
+  }
+  {{#sort}}
+  , 
+  "sort": [
+    {
+      "{{sortField}}": {
+        "order": "{{sortOrder}}"
+      }
+    }
+  ]
+  {{/sort}}
+}
+"""
+  }
+}
+
+
+
+POST _scripts/threadtemplate
+{
+  "script": {
+    "lang": "mustache",
+    "source": """
+{
+  "size": {{sizeValue}}, 
+  "from": {{fromValue}}, 
+  "sort": [
+    {
+      "{{sortField}}": {
+        "order": "{{sortOrder}}"
+      }
+    }
+  ],
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "rootOrg": {
+              "value": "{{rootOrgValue}}"
+            }
+          }
+        },
+        {
+          "term": {
+            "org": {
+              "value": "{{orgValue}}"
+            }
+          }
+        }
+		{{#mustfilterstatus}}
+		,
+        {
+          "terms": {
+            "status": {{#toJson}}mustfilterstatusValue{{/toJson}}
+          }
+        }
+		{{/mustfilterstatus}}
+		{{#mustfilterdtLastModified}}
+		,
+        {
+          "range": {
+            "dtLastModified": {
+              "gte": "{{mustfilterdtLastModifiedgteValue}}",
+              "lt": "{{mustfilterdtLastModifiedltValue}}"
+            }
+          }
+        }
+		{{/mustfilterdtLastModified}}
+		{{#mustfilterhasAcceptedAnswer}}
+		,
+        {
+          "term": {
+            "hasAcceptedAnswer": {
+              "value": "{{mustfilterhasAcceptedAnswerValue}}"
+            }
+          }
+        }
+		{{/mustfilterhasAcceptedAnswer}}
+		{{#mustfilterreplyCount}}
+		,
+        {
+          "term": {
+            "replyCount": {
+              "value": "{{mustfilterreplyCountValue}}"
+            }
+          }
+        }
+		{{/mustfilterreplyCount}}
+		{{#mustfilterpostKind}}
+		,
+        {
+          "terms": {
+            "postKind": {{#toJson}}mustfilterpostKindValue{{/toJson}}
+          }
+        }
+		{{/mustfilterpostKind}}
+		{{#mustfilterthreadContributors}}
+		,
+        {
+          "nested": {
+            "path": "threadContributors",
+            "query": {
+              "terms": {
+                "threadContributors.threadContributorId": {{#toJson}}mustfilterthreadContributorsValue{{/toJson}}
+              }
+            }
+          }
+        }
+		{{/mustfilterthreadContributors}}
+		{{#mustfilterrecipients}}
+		,
+        {
+          "nested": {
+            "path": "recipients",
+            "query": {
+              "terms": {
+                "recipients.recipientId": {{#toJson}}mustfilterrecipientsValue{{/toJson}}
+              }
+            }
+          }
+        }
+		{{/mustfilterrecipients}}
+		{{#mustfiltertags}}
+		,
+        {
+          "nested": {
+            "path": "tags",
+            "query": {
+              "terms": {
+                "tags.id": {{#toJson}}mustfiltertagsValue{{/toJson}}
+              }
+            }
+          }
+        }
+		{{/mustfiltertags}}
+		{{#mustfiltersourceid}}
+		,
+        {
+          "nested": {
+            "path": "source",
+            "query": {
+              "terms": {
+                "source.id": {{#toJson}}mustfiltersourceidValue{{/toJson}}
+              }
+            }
+          }
+        }
+		{{/mustfiltersourceid}}
+		{{#mustfiltersourcename}}
+		,
+        {
+          "nested": {
+            "path": "source",
+            "query": {
+              "terms": {
+                "source.name.keyword": {{#toJson}}mustfiltersourcenameValue{{/toJson}}
+              }
+            }
+          }
+        }
+		{{/mustfiltersourcename}}
+		{{#mustfilterhashTags}}
+		,
+        {
+          "match": {
+            "hashTags": "{{mustfilterhashTagsValue}}"
+          }
+        }
+		{{/mustfilterhashTags}}
+		{{#mustshouldfilter}}
+		,
+        {
+          "bool": {
+            "should": [
+			  {{#shouldfilterrecipients}}
+              {
+                "nested": {
+                  "path": "recipients",
+                  "query": {
+                    "terms": {
+                      "recipients.recipientId": {{#toJson}}shouldfilterrecipientsValue{{/toJson}}
+                    }
+                  }
+                }
+              }
+			  {{/shouldfilterrecipients}}
+			  {{#shouldfiltersourceid}}
+			  {{#shouldComma}},{{/shouldComma}}
+              {
+                "nested": {
+                  "path": "source",
+                  "query": {
+                    "terms": {
+                      "source.id": {{#toJson}}shouldfiltersourceidValue{{/toJson}}
+                    }
+                  }
+                }
+              }
+			  {{/shouldfiltersourceid}}
+			  {{#shouldfiltersourcename}}
+			  {{#shouldComma}},{{/shouldComma}}
+              {
+                "nested": {
+                  "path": "source",
+                  "query": {
+                    "terms": {
+                      "source.name.keyword": {{#toJson}}shouldfiltersourcenameValue{{/toJson}}
+                    }
+                  }
+                }
+              }
+			  {{/shouldfiltersourcename}}
+			  {{#shouldfiltertags}}
+			  {{#shouldComma}},{{/shouldComma}}
+              {
+                "nested": {
+                  "path": "tags",
+                  "query": {
+                    "terms": {
+                      "tags.id": {{#toJson}}shouldfiltertagsValue{{/toJson}}
+                    }
+                  }
+                }
+              }
+			  {{/shouldfiltertags}}
+			  {{#shouldfilterhashTags}}
+		    {{#shouldComma}},{{/shouldComma}}
+        {
+          "match": {
+            "hashTags": "{{shouldfilterhashTagsValue}}"
+          }
+        }
+		{{/shouldfilterhashTags}}
+			  {{#shouldfilterthreadContributors}}
+			  {{#shouldComma}},{{/shouldComma}}
+              {
+                "nested": {
+                  "path": "threadContributors",
+                  "query": {
+                    "terms": {
+                      "threadContributors.threadContributorId": {{#toJson}}shouldfilterthreadContributorsValue{{/toJson}}
+                    }
+                  }
+                }
+              }
+			  {{/shouldfilterthreadContributors}}
+            ]
+          }
+        }
+		{{/mustshouldfilter}}
+      ]
+    }
+  }
+}
+"""
+  }
+}
+
+POST _scripts/tagstemplate
+{
+ "script": {
+    "lang": "mustache",
+    "source": """
+{
+  "size": {{sizeValue}}, 
+  "from": {{fromValue}},
+  "_source": ["id","name"],
+  "query": {
+    "match_phrase": {
+      "tokens": "{{tokenValue}}"
+    }
+  }
+}
+"""
+  } 
+}
+
+
+POST _scripts/userpostactivitytemplate
+{
+  "script": {
+    "lang": "mustache",
+    "source": """
+{
+ "_source": ["id","postid","userId","rootOrg","org","downVote.dtActivity","downVote.isdownVoted","upVote.dtActivity","upVote.isupVoted","like.dtActivity","like.isLiked","flag.comment","flag.commentType","flag.dtActivity","flag.isFlagged"],
+  "size": {{sizeValue}}, 
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "term": {
+            "rootOrg": {
+              "value": "{{rootOrgValue}}"
+            }
+          }
+        },
+        {
+          "term": {
+            "org": {
+              "value": "{{orgValue}}"
+            }
+          }
+        }
+		{{#mustuserIdstatus}}
+		,
+        {
+          "terms": {
+            "userId": {{#toJson}}userIdValue{{/toJson}}
+          }
+        }
+		{{/mustuserIdstatus}}
+		{{#mustpostidstatus}}
+		,
+        {
+          "terms": {
+            "postid": {{#toJson}}postidValue{{/toJson}}
+          }
+        }
+		{{/mustpostidstatus}}
+		{{#mustfilteractivity}}
+		,
+        {
+          "nested": {
+            "path": "{{activityPath}}",
+            "query": {
+              "term": {
+                "{{activityField}}":{
+                  "value":"{{activityValue}}"
+              }
+            }
+          }
+        }
+      }
+		{{/mustfilteractivity}}
+      ]
+    }
+  }
+    {{#fromfilter}}
+  ,
+  "from":{{fromValue}}
+  {{/fromfilter}}
+  {{#sortfilter}}
+  ,
+  "sort": [
+    {
+      "{{sortField}}": {
+        "order": "{{sortOrder}}",
+        "nested_path": "{{sortPath}}"
+      }
+    }
+  ]
+  {{/sortfilter}}
+}
+"""
+  }
+}
+
+POST _scripts/hashtagstemplate
+{
+  "script": {
+    "lang": "mustache",
+    "source": """
+   { "size": {{sizeValue}}, 
+  "from": {{fromValue}}, 
+  "sort": [
+    {
+      "count": {
+        "order": "desc"
+      }
+    }
+  ],
+  "_source": ["id","name"],
+  "query": {
+    "match_phrase_prefix": {
+      "name": "{{nameValue}}"
+    }
+  }
+}
+"""
+  }
+}
+
+
+
+
+
+
+
+
+

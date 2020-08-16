@@ -1,0 +1,35 @@
+{
+  "name": "follow",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "npm-run-all -p -r start:server consumer producer",
+    "start:server": "node ./bin/www",
+    "local": "nodemon ./bin/www",
+    "consumer": "node ./kafka-util/consumer.js",
+    "producer": "node ./kafka-util/producer.js",
+    "start:local": "npm-run-all -p -r local consumer producer"
+  },
+  "dependencies": {
+    "cassandra-driver": "^4.0.0",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "elasticsearch": "^15.3.1",
+    "express": "~4.16.0",
+    "helmet": "^3.18.0",
+    "http-errors": "~1.6.2",
+    "kafka-node": "^4.1.3",
+    "morgan": "~1.9.0",
+    "neo4j-driver": "^1.7.6",
+    "nodemon": "^1.18.9",
+    "npm-run-all": "^4.1.5",
+    "pg": "^7.7.1",
+    "properties-reader": "^0.3.1",
+    "request": "^2.88.0",
+    "underscore": "~1.9.0",
+    "uuid": "^3.3.2",
+    "uuid-validate": "0.0.3",
+    "validator": "^10.11.0",
+    "winston": "^3.2.1"
+  }
+}

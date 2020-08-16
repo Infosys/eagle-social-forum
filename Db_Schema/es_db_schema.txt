@@ -1,0 +1,888 @@
+PUT post_v1
+{
+  "aliases": {
+      "post": {}
+    },
+    "mappings": {
+      "post": {
+        "properties": {
+          "activityEndDate": {
+            "type": "date"
+          },
+          "commentCount": {
+            "type": "long"
+          },
+          "dtCreated": {
+            "type": "date"
+          },
+          "dtLastModified": {
+            "type": "date"
+          },
+          "dtPublished": {
+            "type": "date"
+          },
+          "hashTags": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            },
+            "analyzer": "simple"
+          },
+          "id": {
+            "type": "keyword"
+          },
+          "isAcceptedAnswer": {
+            "type": "boolean"
+          },
+          "lastEdited": {
+            "type": "nested",
+            "properties": {
+              "dtEdited": {
+                "type": "date"
+              },
+              "dtLastEdited": {
+                "type": "date"
+              },
+              "editorId": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "postLastEditorId": {
+                "type": "keyword"
+              }
+            }
+          },
+          "latestReply": {
+            "properties": {
+              "dtLastModified": {
+                "type": "date"
+              },
+              "dtPublished": {
+                "type": "date"
+              },
+              "id": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "lastEdited": {
+                "type": "object"
+              },
+              "postContent": {
+                "properties": {
+                  "body": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  }
+                }
+              },
+              "postKind": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              }
+            }
+          },
+          "options": {
+            "type": "nested",
+            "properties": {
+              "id": {
+                "type": "keyword"
+              },
+              "value": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              }
+            }
+          },
+          "org": {
+            "type": "keyword"
+          },
+          "parentId": {
+            "type": "keyword"
+          },
+          "postContent": {
+            "type": "nested",
+            "properties": {
+              "abstract": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "body": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "title": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              }
+            }
+          },
+          "postCreator": {
+            "type": "nested",
+            "properties": {
+              "emailId": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "name": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "postCreatorId": {
+                "type": "keyword"
+              }
+            }
+          },
+          "postEditor": {
+            "type": "nested",
+            "properties": {
+              "emailId": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "name": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "postEditorId": {
+                "type": "keyword"
+              }
+            }
+          },
+          "postKind": {
+            "type": "keyword"
+          },
+          "primaryImage": {
+            "type": "binary"
+          },
+          "recipients": {
+            "type": "nested",
+            "properties": {
+              "emailId": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "name": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "recipientId": {
+                "type": "keyword"
+              },
+              "type": {
+                "type": "keyword"
+              }
+            }
+          },
+          "replyCount": {
+            "type": "long"
+          },
+          "rootOrg": {
+            "type": "keyword"
+          },
+          "source": {
+            "type": "nested",
+            "properties": {
+              "id": {
+                "type": "keyword"
+              },
+              "name": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              }
+            }
+          },
+          "status": {
+            "type": "keyword"
+          },
+          "tags": {
+            "type": "nested",
+            "properties": {
+              "id": {
+                "type": "keyword"
+              },
+              "name": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              }
+            }
+          },
+          "thumbnail": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          }
+        }
+      }
+    }
+}
+
+
+PUT thread_v1
+{
+  "aliases": {
+      "thread": {}
+    },
+    "mappings": {
+      "thread": {
+        "properties": {
+          "acceptedAnswers": {
+            "type": "keyword"
+          },
+          "activityEndDate": {
+            "type": "date"
+          },
+          "dtCreated": {
+            "type": "date"
+          },
+          "dtLastModified": {
+            "type": "date"
+          },
+          "dtPublished": {
+            "type": "date"
+          },
+          "hasAcceptedAnswer": {
+            "type": "boolean"
+          },
+          "hashTags": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            },
+            "analyzer": "simple"
+          },
+          "id": {
+            "type": "keyword"
+          },
+          "lastEdited": {
+            "type": "nested",
+            "properties": {
+              "dtEdited": {
+                "type": "date"
+              },
+              "dtLastEdited": {
+                "type": "date"
+              },
+              "editorId": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "postLastEditorId": {
+                "type": "keyword"
+              }
+            }
+          },
+          "latestReply": {
+            "type": "nested",
+            "properties": {
+              "activityEndDate": {
+                "type": "date"
+              },
+              "dtCreated": {
+                "type": "date"
+              },
+              "dtLastModified": {
+                "type": "date"
+              },
+              "dtPublished": {
+                "type": "date"
+              },
+              "id": {
+                "type": "keyword"
+              },
+              "lastEdited": {
+                "type": "nested",
+                "properties": {
+                  "dtEdited": {
+                    "type": "date"
+                  },
+                  "dtLastEdited": {
+                    "type": "date"
+                  },
+                  "editorId": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "postLastEditorId": {
+                    "type": "keyword"
+                  }
+                }
+              },
+              "postContent": {
+                "type": "nested",
+                "properties": {
+                  "abstract": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "body": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "title": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  }
+                }
+              },
+              "postKind": {
+                "type": "keyword"
+              }
+            }
+          },
+          "options": {
+            "type": "nested",
+            "properties": {
+              "id": {
+                "type": "keyword"
+              },
+              "value": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              }
+            }
+          },
+          "org": {
+            "type": "keyword"
+          },
+          "postContent": {
+            "type": "nested",
+            "properties": {
+              "abstract": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "body": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "title": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              }
+            }
+          },
+          "postCreator": {
+            "type": "nested",
+            "properties": {
+              "emailId": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "name": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "postCreatorId": {
+                "type": "keyword"
+              }
+            }
+          },
+          "postKind": {
+            "type": "keyword"
+          },
+          "primaryImage": {
+            "type": "binary"
+          },
+          "query": {
+            "properties": {
+              "term": {
+                "properties": {
+                  "id": {
+                    "properties": {
+                      "value": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "recipients": {
+            "type": "nested",
+            "properties": {
+              "emailId": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "name": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "recipientId": {
+                "type": "keyword"
+              },
+              "type": {
+                "type": "keyword"
+              }
+            }
+          },
+          "replyCount": {
+            "type": "long"
+          },
+          "rootOrg": {
+            "type": "keyword"
+          },
+          "script": {
+            "properties": {
+              "inline": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "params": {
+                "properties": {
+                  "tag": {
+                    "properties": {
+                      "dtLastModified": {
+                        "type": "date"
+                      },
+                      "dtPublished": {
+                        "type": "date"
+                      },
+                      "id": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "lastEdited": {
+                        "type": "object"
+                      },
+                      "postContent": {
+                        "properties": {
+                          "body": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "postKind": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "source": {
+            "type": "nested",
+            "properties": {
+              "id": {
+                "type": "keyword"
+              },
+              "name": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              }
+            }
+          },
+          "status": {
+            "type": "keyword"
+          },
+          "tags": {
+            "type": "nested",
+            "properties": {
+              "id": {
+                "type": "keyword"
+              },
+              "name": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              }
+            }
+          },
+          "threadContributors": {
+            "type": "nested",
+            "properties": {
+              "emailId": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "name": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "threadContributorId": {
+                "type": "keyword"
+              }
+            }
+          },
+          "thumbnail": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          }
+        }
+      }
+    }
+}
+
+
+
+PUT tags_v1
+{
+  "aliases": {
+      "tags": {}
+    },
+    "mappings": {
+      "tags": {
+        "_all": {
+          "enabled": true
+        },
+        "properties": {
+          "id": {
+            "type": "keyword"
+          },
+          "name": {
+            "type": "text"
+          },
+          "tokens": {
+            "type": "text",
+            "analyzer": "autocomplete"
+          }
+        }
+      }
+    },
+    "settings": {
+      "analyzer": {
+            "autocomplete": {
+              "filter": [
+                "standard",
+                "lowercase",
+                "shingle"
+              ],
+              "type": "custom",
+              "tokenizer": "autocomplete_tokenizer"
+            }
+          }
+    }
+}
+
+
+PUT userpostactivity_v1
+{
+  "aliases": {
+      "userpostactivity": {}
+    },
+    "mappings": {
+      "userpostactivity": {
+        "_all": {
+          "enabled": true
+        },
+        "properties": {
+          "downVote": {
+            "type": "nested",
+            "properties": {
+              "dtActivity": {
+                "type": "date"
+              },
+              "isdownVoted": {
+                "type": "boolean"
+              }
+            }
+          },
+          "flag": {
+            "type": "nested",
+            "properties": {
+              "comment": {
+                "type": "keyword"
+              },
+              "commentType": {
+                "type": "keyword"
+              },
+              "dtActivity": {
+                "type": "date"
+              },
+              "isFlagged": {
+                "type": "boolean"
+              }
+            }
+          },
+          "id": {
+            "type": "keyword"
+          },
+          "like": {
+            "type": "nested",
+            "properties": {
+              "dtActivity": {
+                "type": "date"
+              },
+              "isLike": {
+                "type": "boolean"
+              },
+              "isLiked": {
+                "type": "boolean"
+              }
+            }
+          },
+          "org": {
+            "type": "keyword"
+          },
+          "postid": {
+            "type": "keyword"
+          },
+          "rootOrg": {
+            "type": "keyword"
+          },
+          "upVote": {
+            "type": "nested",
+            "properties": {
+              "dtActivity": {
+                "type": "date"
+              },
+              "isupVoted": {
+                "type": "boolean"
+              }
+            }
+          },
+          "userId": {
+            "type": "keyword"
+          }
+        }
+      }
+    }
+}
+
+
+
+PUT hashtags_v1
+{
+  "aliases": {
+      "hashtags": {}
+    },
+    "mappings": {
+      "hashtags": {
+        "properties": {
+          "count": {
+            "type": "long"
+          },
+          "id": {
+            "type": "keyword"
+          },
+          "name": {
+            "type": "completion",
+            "analyzer": "simple",
+            "preserve_separators": true,
+            "preserve_position_increments": true,
+            "max_input_length": 50,
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          }
+        }
+      }
+    }
+}
+
+
+
+
+
